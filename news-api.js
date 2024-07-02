@@ -1,29 +1,14 @@
-export async function getNews(){
-    const url = 'https://newsnow.p.rapidapi.com/newsv2';
-const options = {
-    method: 'POST',
-    headers: {
-        'x-rapidapi-key': 'a3ce3b3a5amshb9e3612c707cb13p128713jsn758974e4e1b9',
-        'x-rapidapi-host': 'newsnow.p.rapidapi.com',
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        query: 'climate change',
-        time_bounded: true,
-        from_date: '01/02/2022',
-        to_date: '05/06/2024',
-        location: 'us',
-        language: 'en',
-        page: 1
+export function getNews(query = 'tesla', from_date = '2024-06-02', sortBy = 'publishedAt', page = 1, success, error) {
+    const apiKey = 'caa94f99e23d40d29d1db0c88389230e';
+    const url = `https://newsapi.org/v2/everything?q=${query}&from=${from_date}&sortBy=${sortBy}&apiKey=${apiKey}&page=${page}`;
+
+        fetch(url).then((res) => {
+            return res.json()
+        }).then((json) => {
+            console.log(json)
+        console.log(json.articles)
+        success(json)
+    }).catch((err) => {
+        error(err)
     })
-};
-
-try {
-    const response = await fetch(url, options);
-    const result = await response.json(); 
-    console.log(result);
-} catch (error) {
-    console.error(error);
 }
-}
-
