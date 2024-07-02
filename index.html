@@ -3,33 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Breaking News API</title>
+    <style>
+
+    </style>
 </head>
 <body>
-    <h1>Breaking News</h1>
-    <div id="news"> </div>
-    <script type="module">
-        import { getNews } from './news-api.js';
-    
+    <div class="container">
+        <div id="news"></div>
+        <form id="news-form">
+            <input type="text" id="query" placeholder="Search for news">
+            <input type="date" id="from_date">
+            <select id="sortBy">
+                <option value="publishedAt">Published At</option>
+                <option value="popularity">Popularity</option>
+                <option value="relevancy">Relevancy</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+        <!-- Scripts -->
+
+<script type="module">
+    import { getNews } from './news-api.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('news-form'); // Ensure this matches your form's ID
+        const inputQuery = document.getElementById('query');
         const newsDisplay = document.getElementById('news');
-        getNews('global warming', '2024-06-02', 'publishedAt', 1, 
-            // Success callback
-            (json) => {
-                newsDisplay.innerHTML = json.articles.map(article => `
-                    <div>
-                        <h2>${article.title}</h2>
-                        <p>${article.description}</p>
-                        <img src="${article.urlToImage}" alt="${article.title}">
-                    </div>
-                `).join('');
-            },
-            // Error callback
-            (error) => {
-                console.error('Failed to fetch news:', error);
-                newsDisplay.innerHTML = `<p>Failed to load news. Please try again later.</p>`;
-            }
-        );
-    </script>
-    
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const query = inputQuery.value;
+            const from_date = '2024-07-01'; // Consider making this dynamic or user-selectable
+            const sortBy = 'publishedAt'; // Consider making this user-selectable
+            const page = 1;
+
+            getNews(query, from_date, sortBy, page)
+                .then((json) => {
+                    const articlesHTML = json.articles.map(article => `
+                        <div>
+                            <h2>${article.title}</h2>
+                            <p>${article.description}</p>
+                            <a href="${article.url}" target="_blank">Read more</a>
+                        </div>
+                    `).join(''); // Join the array of strings into a single string
+                    newsDisplay.innerHTML = articlesHTML;
+                })
+                .catch((error) => {
+                    console.error('Failed to fetch news:', error);
+                    newsDisplay.innerHTML = '<p>Failed to load news articles. Please try again later.</p>';
+                });
+        });
+    });
+</script>
+
 </body>
 </html>
+
