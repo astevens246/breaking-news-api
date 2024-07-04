@@ -9,7 +9,7 @@
             height: 100%;
         }
 
-        body{
+        body {
             font-family: sans-serif;
             font-size: 16px;
             line-height: 1.5;
@@ -17,10 +17,12 @@
             justify-content: center;
             align-items: center;
         }
+
         h1 {
             margin: 0 0 1rem 0;
         }
-        input, button {
+
+        input, button, select {
             font-size: 1rem;
             padding: 0.5rem;
             margin: 0;
@@ -38,7 +40,6 @@
             border-radius: 0.50rem;
             cursor: pointer;
         }
-
     </style>
 </head>
 <body>
@@ -52,45 +53,77 @@
                 <option value="popularity">Popularity</option>
                 <option value="relevancy">Relevancy</option>
             </select>
+            <select id="newsType">
+                <option value="everything">Everything</option>
+                <option value="topBusinessHeadlines">Top Business Headlines</option>
+            </select>
             <button type="submit">Search</button>
         </form>
     </div>
-        <!-- Scripts -->
+    <!-- Scripts -->
+    <script type="module">
+        import { getNews, getTopBusinessHeadlines, getNewsWithPopularity, getRecentNews } from './news-api.js';
 
-<script type="module">
-    import { getNews } from './news-api.js';
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('news-form');
+            const inputQuery = document.getElementById('query');
+            const inputDate = document.getElementById('from_date');
+            const selectSortBy = document.getElementById('sortBy');
+            const selectNewsType = document.getElementById('newsType');
+            const newsDisplay = document.getElementById('news');
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('news-form'); // Ensure this matches your form's ID
-        const inputQuery = document.getElementById('query');
-        const newsDisplay = document.getElementById('news');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const query = inputQuery.value;
+                const fromDate = inputDate.value;
+                const sortBy = selectSortBy.value;
+                const newsType = selectNewsType.value;
+                const page = 1;
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const query = inputQuery.value;
-            const from_date = '2024-07-01'; // Consider making this dynamic or user-selectable
-            const sortBy = 'publishedAt'; // Consider making this user-selectable
-            const page = 1;
 
-            getNews(query, from_date, sortBy, page)
-                .then((json) => {
-                    const articlesHTML = json.articles.map(article => `
-                        <div>
-                            <h2>${article.title}</h2>
-                            <p>${article.description}</p>
-                            <a href="${article.url}" target="_blank">Read more</a>
-                        </div>
-                    `).join(''); // Join the array of strings into a single string
-                    newsDisplay.innerHTML = articlesHTML;
-                })
-                .catch((error) => {
-                    console.error('Failed to fetch news:', error);
-                    newsDisplay.innerHTML = '<p>Failed to load news articles. Please try again later.</p>';
-                });
+                if (newsType === 'everything') {
+                    getNews(query, fromDate, sortBy, page)
+                        .then((json) => {
+                            if (json.articles.length === 0) {
+                                newsDisplay.innerHTML = '<p>No articles found.</p>';
+                                return;
+                            }
+                            const articlesHTML = json.articles.map(article => `
+                                <div>
+                                    <h2>${article.title}</h2>
+                                    <p>${article.description}</p>
+                                    <a href="${article.url}" target="_blank">Read more</a>
+                                </div>
+                            `).join('');
+                            newsDisplay.innerHTML = articlesHTML;
+                        })
+                        .catch((error) => {
+                            console.error('Failed to fetch news:', error);
+                            newsDisplay.innerHTML = '<p>Failed to load news articles. Please try again later.</p>';
+                        });
+                } else if (newsType === 'topBusinessHeadlines') {
+                    getTopBusinessHeadlines()
+                        .then((json) => {
+                            if (json.articles.length === 0) {
+                                newsDisplay.innerHTML = '<p>No articles found.</p>';
+                                return;
+                            }
+                            const articlesHTML = json.articles.map(article => `
+                                <div>
+                                    <h2>${article.title}</h2>
+                                    <p>${article.description}</p>
+                                    <a href="${article.url}" target="_blank">Read more</a>
+                                </div>
+                            `).join('');
+                            newsDisplay.innerHTML = articlesHTML;
+                        })
+                        .catch((error) => {
+                            console.error('Failed to fetch news:', error);
+                            newsDisplay.innerHTML = '<p>Failed to load news articles. Please try again later.</p>';
+                        });
+                }
+            });
         });
-    });
-</script>
-
+    </script>
 </body>
 </html>
-
