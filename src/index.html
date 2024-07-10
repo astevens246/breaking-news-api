@@ -60,9 +60,8 @@
             <button type="submit">Search</button>
         </form>
     </div>
-    <!-- Scripts -->
     <script type="module">
-        import { getNews, getTopBusinessHeadlines, getNewsWithPopularity, getRecentNews } from './news-api.js';
+        import { getNews, getTopBusinessHeadlines } from './news-api.js';
 
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('news-form');
@@ -80,48 +79,31 @@
                 const newsType = selectNewsType.value;
                 const page = 1;
 
+                let fetchNewsPromise;
 
                 if (newsType === 'everything') {
-                    getNews(query, fromDate, sortBy, page)
-                        .then((json) => {
-                            if (json.articles.length === 0) {
-                                newsDisplay.innerHTML = '<p>No articles found.</p>';
-                                return;
-                            }
-                            const articlesHTML = json.articles.map(article => `
-                                <div>
-                                    <h2>${article.title}</h2>
-                                    <p>${article.description}</p>
-                                    <a href="${article.url}" target="_blank">Read more</a>
-                                </div>
-                            `).join('');
-                            newsDisplay.innerHTML = articlesHTML;
-                        })
-                        .catch((error) => {
-                            console.error('Failed to fetch news:', error);
-                            newsDisplay.innerHTML = '<p>Failed to load news articles. Please try again later.</p>';
-                        });
+                    fetchNewsPromise = getNews(query, fromDate, sortBy, page);
                 } else if (newsType === 'topBusinessHeadlines') {
-                    getTopBusinessHeadlines()
-                        .then((json) => {
-                            if (json.articles.length === 0) {
-                                newsDisplay.innerHTML = '<p>No articles found.</p>';
-                                return;
-                            }
-                            const articlesHTML = json.articles.map(article => `
-                                <div>
-                                    <h2>${article.title}</h2>
-                                    <p>${article.description}</p>
-                                    <a href="${article.url}" target="_blank">Read more</a>
-                                </div>
-                            `).join('');
-                            newsDisplay.innerHTML = articlesHTML;
-                        })
-                        .catch((error) => {
-                            console.error('Failed to fetch news:', error);
-                            newsDisplay.innerHTML = '<p>Failed to load news articles. Please try again later.</p>';
-                        });
+                    fetchNewsPromise = getTopBusinessHeadlines();
                 }
+
+                fetchNewsPromise.then((json) => {
+                    if (json.articles.length === 0) {
+                        newsDisplay.innerHTML = '<p>No articles found.</p>';
+                        return;
+                    }
+                    const articlesHTML = json.articles.map(article => `
+                        <div>
+                            <h2>${article.title}</h2>
+                            <p>${article.description}</p>
+                            <a href="${article.url}" target="_blank">Read more</a>
+                        </div>
+                    `).join('');
+                    newsDisplay.innerHTML = articlesHTML;
+                }).catch((error) => {
+                    console.error('Failed to fetch news:', error);
+                    newsDisplay.innerHTML = '<p>Failed to load news articles. Please try again later.</p>';
+                });
             });
         });
     </script>
