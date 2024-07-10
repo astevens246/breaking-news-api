@@ -4,7 +4,6 @@
   "description": "",
   "type": "module",
   "main": "index.js",
-  "build": "webpack --config webpack.config.js",
   "dependencies": {
     "ansi-escapes": "^4.3.2",
     "ansi-regex": "^5.0.1",
@@ -65,7 +64,6 @@
     "get-package-type": "^0.1.0",
     "get-stream": "^6.0.1",
     "glob": "^7.2.3",
-    "globals": "^11.12.0",
     "graceful-fs": "^4.2.11",
     "has-flag": "^4.0.0",
     "hasown": "^2.0.2",
@@ -204,11 +202,15 @@
   "devDependencies": {
     "@babel/preset-env": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
+    "@eslint/js": "^9.6.0",
     "babel-jest": "^29.7.0",
+    "eslint": "^9.6.0",
+    "globals": "^15.8.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.0",
     "ts-loader": "^9.5.1",
     "typescript": "^5.5.3",
+    "typescript-eslint": "^7.16.0",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4"
   },
@@ -227,7 +229,8 @@
     ]
   },
   "scripts": {
-    "test": "jest"
+    "build": "webpack --config webpack.config.cjs",
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "module",

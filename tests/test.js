@@ -1,4 +1,4 @@
-import { getNews, getTopBusinessHeadlines } from '../src/news-api.js';
+import { getNews, getTopBusinessHeadlines } from '../src/news-api';
 
 describe('News API Library', () => {
 
@@ -52,5 +52,12 @@ describe('News API Library', () => {
     process.env.NEWS_API_KEY = originalApiKey; // Restore original API key
   });
 
+  test('fetches news articles with multiple pages', async () => {
+    const dataPage1 = await getNews('technology', '2023-07-01', 'publishedAt', 1);
+    const dataPage2 = await getNews('technology', '2023-07-01', 'publishedAt', 2);
+    expect(dataPage1.articles).toBeDefined();
+    expect(dataPage2.articles).toBeDefined();
+    expect(dataPage1.articles).not.toEqual(dataPage2.articles);
+  });
 
 });

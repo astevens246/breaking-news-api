@@ -2,7 +2,8 @@
   const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/news-api.ts',
+  mode: 'development',
   module: {
     rules: [
       {
@@ -16,7 +17,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    filename: 'index.js',
+    filename: 'index.ts',
     path: path.resolve(__dirname, 'dist'),
 		library: 'lib',
 		libraryTarget: 'umd',
