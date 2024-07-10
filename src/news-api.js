@@ -1,6 +1,7 @@
+const fetch = require('node-fetch'); // Assuming you're using node-fetch for server-side fetch
 const apiKey = 'caa94f99e23d40d29d1db0c88389230e';
 
-export async function getNews(query, from_date, sortBy, page) {
+async function getNews(query, from_date, sortBy, page) {
     const url = `https://newsapi.org/v2/everything?q=${query}&from=${from_date}&sortBy=${sortBy}&apiKey=${apiKey}&page=${page}&language=en`;
     console.log('Fetching URL:', url);  
     try {
@@ -16,7 +17,7 @@ export async function getNews(query, from_date, sortBy, page) {
     }
 }
 
-export async function getTopBusinessHeadlines() {
+async function getTopBusinessHeadlines() {
     const url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=${apiKey}`;
     console.log('Fetching URL:', url);  
     try {
@@ -32,7 +33,7 @@ export async function getTopBusinessHeadlines() {
     }
 }
 
-export async function getNewsWithPopularity(query, from_date, page) {
+async function getNewsWithPopularity(query, from_date, page) {
     const url = `https://newsapi.org/v2/everything?q=${query}&from=${from_date}&sortBy=popularity&apiKey=${apiKey}&page=${page}&language=en`;
     console.log('Fetching URL:', url);
     try {
@@ -48,7 +49,7 @@ export async function getNewsWithPopularity(query, from_date, page) {
     }
 }
 
-export async function getRecentNews(query, from_date, page) {
+async function getRecentNews(query, from_date, page) {
     const url = `https://newsapi.org/v2/everything?q=${query}&from=${from_date}&sortBy=publishedAt&apiKey=${apiKey}&page=${page}&language=en`;
     console.log('Fetching URL:', url);
     try {
@@ -63,3 +64,5 @@ export async function getRecentNews(query, from_date, page) {
         throw error;
     }
 }
+
+module.exports = { getNews, getTopBusinessHeadlines, getNewsWithPopularity, getRecentNews };
