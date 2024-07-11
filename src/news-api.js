@@ -35,13 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNews = getNews;
-exports.getTopBusinessHeadlines = getTopBusinessHeadlines;
-exports.getNewsWithPopularity = getNewsWithPopularity;
-exports.getRecentNews = getRecentNews;
+
 var apiKey = 'caa94f99e23d40d29d1db0c88389230e';
-function getNews(query, from_date, sortBy, page) {
+async function getNews(query, from_date, sortBy, page) {
     return __awaiter(this, void 0, void 0, function () {
         var url, res, json, error_1;
         return __generator(this, function (_a) {
@@ -71,7 +67,7 @@ function getNews(query, from_date, sortBy, page) {
         });
     });
 }
-function getTopBusinessHeadlines() {
+async function getTopBusinessHeadlines() {
     return __awaiter(this, void 0, void 0, function () {
         var url, res, json, error_2;
         return __generator(this, function (_a) {
@@ -101,7 +97,7 @@ function getTopBusinessHeadlines() {
         });
     });
 }
-function getNewsWithPopularity(query, from_date, page) {
+async function getNewsWithPopularity(query, from_date, page) {
     return __awaiter(this, void 0, void 0, function () {
         var url, res, json, error_3;
         return __generator(this, function (_a) {
@@ -131,7 +127,7 @@ function getNewsWithPopularity(query, from_date, page) {
         });
     });
 }
-function getRecentNews(query, from_date, page) {
+async function getRecentNews(query, from_date, page) {
     return __awaiter(this, void 0, void 0, function () {
         var url, res, json, error_4;
         return __generator(this, function (_a) {
@@ -161,3 +157,6 @@ function getRecentNews(query, from_date, page) {
         });
     });
 }
+
+// ES Module export syntax
+export { getNews, getTopBusinessHeadlines, getNewsWithPopularity, getRecentNews };
