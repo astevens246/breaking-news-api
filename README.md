@@ -12,6 +12,16 @@ This project is a simple API for fetching breaking news headlines from various s
 
 ## Installation
 
+To use the Breaking News API in your project, follow these steps:
+
 1. Clone the repository:
    ```sh
    git clone https://github.com/astevens246/breaking-news-api.git
+   ```
+
+2. Install the package using npm:
+   ```sh
+   npm i breaking-news-api
+   ```
+
+For more details, visit the [breaking-news-api package on npm](https://www.npmjs.com/package/breaking-news-api).
