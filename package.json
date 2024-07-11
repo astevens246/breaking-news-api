@@ -1,9 +1,9 @@
 {
   "name": "breaking-news-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "![Node.js CI](https://github.com/astevens246/breaking-news-api/actions/workflows/node.js.yml/badge.svg)",
   "type": "module",
-  "main": "index.js",
+  "main": "index.html",
   "dependencies": {
     "ansi-escapes": "^7.0.0",
     "ansi-regex": "^6.0.1",
@@ -246,10 +246,13 @@
     "url": "git+https://github.com/astevens246/breaking-news-api.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Allen Stevens",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/astevens246/breaking-news-api/issues"
   },
-  "homepage": "https://github.com/astevens246/breaking-news-api#readme"
+  "homepage": "https://github.com/astevens246/breaking-news-api#readme",
+  "directories": {
+    "test": "tests"
+  }
 }
